@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "999605360157",
+    "project_id": "hobizo2022",
+    "storage_bucket": "hobizo2022.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999605360157:android:3e23a863d929a1f58a58f4",
+        "android_client_info": {
+          "package_name": "com.hobizo2022"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "999605360157-nep41kskfjrqbsf38j8c0o7p8nblnlbc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hobizo2022",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "999605360157-chj1b42877gq32bfadjr4ogs5kf6uhmh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfHfAiM2yXMCxdVU2CUgOWeAmxux08Zxk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "999605360157-chj1b42877gq32bfadjr4ogs5kf6uhmh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
