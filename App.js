@@ -13,7 +13,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Test from './screens/targetedhoby';
 import Newprofile from './screens/newprofile'
 import Myprofile from './screens/profile';
+import messaging from '@react-native-firebase/messaging';
+
 const {height,width} = Dimensions.get('screen')
+
 GoogleSignin.configure();
 
 const Signup = createStackNavigator()
@@ -69,6 +72,12 @@ const AuthDone = ()=>{
 
 
 const App = ()=>{
+  useEffect(()=>{
+    messaging().getToken().then(token=>{
+      console.log(token)
+      console.log('token')
+    })
+  },[])
   const [user,setuser] = useState()
   const [empty,setempty] = useState()
   const [initializing,setinitializing] = useState(true)

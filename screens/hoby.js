@@ -1,13 +1,14 @@
 import React,{useEffect, useState} from "react";
-import {Text,View,TextInput,Button,Image,Dimensions,Alert, Pressable} from "react-native"
+import {Text,View,TextInput,BackHandler, Button,Image,Dimensions,Alert, Pressable} from "react-native"
 
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const {height,width} = Dimensions.get('window')
 
 const newuser = (user) => {
+
      console.log('new')
-    fetch('https://5309-2409-4064-28f-cd4d-78e4-f2ee-f287-40c3.ngrok.io/newuser', {
+    fetch('http://15.206.28.55:8060/newuser', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -16,13 +17,28 @@ const newuser = (user) => {
       body: JSON.stringify(user)
     }).then((response) => response.json()).then((data) => {
     console.log(data)
-
+     
      
      
     })
       .catch(err => console.error(err));
   }
 const HobyScreen = ({navigation,route})=>{
+    useEffect(() => {
+        const backAction = () => {
+            if (navigation.canGoBack()) {
+                navigation.goBack();
+              }
+          return true;
+        };
+    
+        const backHandler = BackHandler.addEventListener(
+          "hardwareBackPress",
+          backAction
+        );
+    
+        return () => backHandler.remove();
+      }, []);
     
 
     const storeid = async (value) => {

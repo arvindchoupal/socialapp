@@ -3,11 +3,43 @@ import {  Alert, FlatList,BackHandler, Text,TouchableOpacity, Image,Button,View,
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { GoogleSignin, GoogleSigninButton, statusCodes} from '@react-native-google-signin/google-signin';
 import Geolocation from '@react-native-community/geolocation';
+import messaging from '@react-native-firebase/messaging';
+
 
 Geolocation.getCurrentPosition(info => console.log(info));
 
 const {height,width} = Dimensions.get('window')
 const Top = ({route,navigation}) => {
+  // useEffect(()=>{
+  //   fetch('http://15.206.28.55:8060/version')
+  //   .then((resp)=>resp.json())
+  //   .then((json)=>console.log(json))
+  // },[])
+
+
+
+
+  useEffect(() => {
+    console.log('back')
+    const backAction = () => {
+      Alert.alert("Hold on!", "Are you sure you want to go back?", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "YES", onPress: () => BackHandler.exitApp() }
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
     const removeid = async () => {
                 try {
                   await AsyncStorage.removeItem('id')
@@ -153,7 +185,8 @@ const Top = ({route,navigation}) => {
        "reviews": users[i].reviews,
        "status":users[i].status,
        "id":users[i].id,
-       "date": users[i].date
+       "date": users[i].date,
+       "media":users[i].media
       });
     }}
     
@@ -170,28 +203,28 @@ const Top = ({route,navigation}) => {
   
 
 
-// const updateStatus = () => {
+const updateStatus = () => {
  
-// fetch('https://baa9-2409-4064-2214-e639-1d5b-a333-38ce-710.ngrok.io/status', {
-//   method: 'POST',
-//   headers: {
-//     Accept: 'application/json',
-//     'Content-Type': 'application/json'
-//   },
-//   body: JSON.stringify({
-//     "email": mydata.myemail,
-//     "status": appState.current
-
-//   })
-// }).then((response) => response.json()).then((data) => {
-// })
-//   .catch(err => console.error(err));
-// }
+fetch('http://15.206.28.55:8060/status', {
+  method: 'POST',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    "email": mydata.myemail,
+    "status": appState.current
+  
+  })
+}).then((response) => response.json()).then((data) => {
+})
+  .catch(err => console.error(err));
+}
 
 
 const updateLocation = (latitude,longitude) => {
  
-  fetch('https://5309-2409-4064-28f-cd4d-78e4-f2ee-f287-40c3.ngrok.io/location', {
+  fetch('http://15.206.28.55:8060/location', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -210,7 +243,7 @@ const updateLocation = (latitude,longitude) => {
  
   const getusers2 = () => {
 
-  fetch('https://5309-2409-4064-28f-cd4d-78e4-f2ee-f287-40c3.ngrok.io/users', {
+  fetch('https://f34c-2409-4064-915-4eee-189f-835a-eda8-a9d9.ngrok.io/users', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -325,6 +358,7 @@ const updateLocation = (latitude,longitude) => {
        keyExtractor={index=>index}
 
       />
+      
 <View style={{position:'absolute',bottom:50}}>
 <Button title ="signout" onPress={signOut}/></View>
     </View>

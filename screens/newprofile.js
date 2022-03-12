@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Alert, Dimensions, Image, FlatList, TextInput, Pressable, ScrollView, TouchableOpacity } from "react-native"
+import { Text, View, Alert, Dimensions, Image,BackHandler, FlatList, TextInput, Pressable, ScrollView, TouchableOpacity } from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from "@react-navigation/native";
 import { ListItem } from "react-native-elements/dist/list/ListItem";
 import Ionicons from 'react-native-vector-icons/Ionicons'
-
 const { height, width } = Dimensions.get('window')
 // import { Ionicons } from "@expo/vector-icons";
 const Newprofile = ({ navigation, route }) => {
@@ -13,6 +12,22 @@ const Newprofile = ({ navigation, route }) => {
     const [update,setupdate] =useState(false)
     const profile = route.params.user
     const myid = route.params.myid
+
+    useEffect(() => {
+        const backAction = () => {
+            if (navigation.canGoBack()) {
+                navigation.goBack();
+              }
+          return true;
+        };
+    
+        const backHandler = BackHandler.addEventListener(
+          "hardwareBackPress",
+          backAction
+        );
+    
+        return () => backHandler.remove();
+      }, []);
     const getData = async () => {
         try {
           const jsonValue = await AsyncStorage.getItem('myprofiledata')
@@ -102,7 +117,7 @@ const Newprofile = ({ navigation, route }) => {
  </View>
  <TouchableOpacity onPress={ ()=>{
      
-    fetch('https://7952-2409-4064-2c04-e7bd-dcb6-58a8-7405-1fb2.ngrok.io/newreview', {
+    fetch('http://15.206.28.55:8060/newreview', {
     method: 'POST',
     headers: {
       Accept: 'application/json',

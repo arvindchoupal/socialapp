@@ -1,5 +1,5 @@
-import React, { useState }  from "react";
-import {Text,View,Dimensions, FlatList,Pressable,ImageBackground} from 'react-native'
+import React, { useState ,useEffect}  from "react";
+import {Text,View,Dimensions,BackHandler, FlatList,Pressable,ImageBackground} from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Media from "./media";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -95,7 +95,21 @@ const Test =({route,navigation})=>{
   const targetedhobby = route.params.selectedhobby
   const users = route.params.users
   const myid = route.params.myid
- 
+  useEffect(() => {
+    const backAction = () => {
+        if (navigation.canGoBack()) {
+            navigation.goBack();
+          }
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
   
   
   return (
@@ -112,7 +126,7 @@ const Test =({route,navigation})=>{
     >
       <Tab.Screen name="top" component={Targetedhoby} initialParams={{"users":users,"hobby":targetedhobby,"myid":myid}}/>
       <Tab.Screen name="latest" component={Latest} initialParams={{"users":users,"hobby":targetedhobby,"myid":myid}} />
-      <Tab.Screen name="media" component={Media} />
+      <Tab.Screen name="media" component={Media} initialParams={{"users":users,"hobby":targetedhobby,"myid":myid}} />
     </Tab.Navigator>
    </View>
    </View>

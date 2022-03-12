@@ -1,5 +1,5 @@
 import React,{useState,useEffect,useCallback} from 'react'
-import {Text,View,Dimensions, Button} from 'react-native'
+import {Text,View,Dimensions, Button,BackHandler} from 'react-native'
 import { GiftedChat } from 'react-native-gifted-chat'
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from "@react-native-async-storage/async-storage"
@@ -14,6 +14,44 @@ const {height,width} = Dimensions.get('window')
 const Chat = ({route,navigation})=>{
   const [mydata,setmydata] =useState()
  const myid = route.params.myid
+
+
+ const sendnoti = (message)=>{
+  console.log('notfi')
+  fetch ('https://f34c-2409-4064-915-4eee-189f-835a-eda8-a9d9.ngrok.io/send-noti',{
+    method:'post',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      "token": "dlB1TLV9R0qbeXfO79N_yP:APA91bF00pNqralubBBrwjUMvr5OL5nhvie_GjgMonQsll1ThT1CypOoQSU-PEay3C0ok4yn53PImkGY3nNE8-e762-KFZpzmrN-V0AqFecSGhZKF8LOlqcAtm_-C8RbB7-OzYg2kfSQ",
+      "title": mydata.name,
+      "msg":message
+    
+    })
+  })
+}
+ useEffect(() => {
+  const backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want to go back?", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "YES", onPress: () => BackHandler.exitApp() }
+    ]);
+    return true;
+  };
+
+  const backHandler = BackHandler.addEventListener(
+    "hardwareBackPress",
+    backAction
+  );
+
+  return () => backHandler.remove();
+}, []);
+
  console.log(myid)
   console.log('0')
   useEffect(()=>{
@@ -131,7 +169,7 @@ const onSend = (messagesArray ) => {
     console.log('User added!');
   });
 
-  
+  sendnoti(msg)
 }
 
 useEffect(()=>{
